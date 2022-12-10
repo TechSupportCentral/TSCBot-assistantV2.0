@@ -5,16 +5,11 @@ module.exports = {
     category: 'Infos',
     utilisation: '{prefix}activity-list',
 
- async execute (client,message) {
+async execute (client,message) {
+
+    if (!message.member.roles.cache.has(client.config.roles.owner)) return message.channel.send("you don't have permissions to use this command!")
 
     const Levels = require("discord.js-leveling")
-
-    let ownerid = "824063311829925898";
-		let membersWithRole = message.guild.roles.cache.get(ownerid).members;
-		let owners = message.guild.roles.cache.get("824063311829925898");
-
-		if (!message.member.roles.cache.has(owners.id)) return message.channel.send("you don't have permissions to use this command!")
-
     const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 10);
 
     if (rawLeaderboard.length < 1) return message.channel.send("Nobody's in the list yet.");
