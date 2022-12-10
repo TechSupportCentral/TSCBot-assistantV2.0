@@ -1,9 +1,10 @@
 //module dependencies
 const fs = require('fs');
 const discord = require('discord.js');
-const client = new discord.Client({ disableMentions: 'everyone' });
 const mongoose = require('mongoose')
 client.config = require('./config/bot');
+const client = new discord.Client
+
 
 
 //Startup 1/2
@@ -42,12 +43,10 @@ const ticketcreate =  '824684376398233670'
 const suggestions =  '824926277868978186'
 const general =  '824042976371277888'
 const games = '824059985998381138'
-const setups = '824737989850169355'
-const memes =  '824738477291601980'
+const memes = '824738477291601980'
 const music =  '824067063941300224'
 const funbots =  '832535838289297408'
 const supportteam = '824065058388181013'
-const bump =  '824185956549787659'
 const  OwnerRoleID =  '824063311829925898'
 const stafflogs =   '824194262279127060'
 
@@ -70,7 +69,7 @@ client.on("message", async (message) => {
 		if(message.channel.id ===music) return
 		if(message.channel.id ===funbots) return
 		if(message.channel.id ===supportteam) return
-		if(message.channel.id ===bump) return
+	
 
 		let owners = message.guild.roles.cache.get(OwnerRoleID);
 		if (message.member.roles.cache.has(owners.id)) return

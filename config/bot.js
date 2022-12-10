@@ -8,10 +8,10 @@ module.exports = {
         success: ':white_check_mark:'
     },
 
-    mongo: 'insert MongoDB URI here',
+    mongo: 'MongoURL',
 
     discord: {
-        token: 'insert token here',
+        token: 'DC-Token',
         prefix: '!',
         activity: 'TSC'
     },

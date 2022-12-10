@@ -7,7 +7,6 @@ module.exports = {
     execute(client, message, args) {
         if (!args[0]) {
             const infos = message.client.commands.filter(x => x.category == 'Infos').map((x) => '`' + x.name + '`').join(', ');
-            const Tickets = message.client.commands.filter(x => x.category == 'Tickets').map((x) => '`' + x.name + '`').join(', ');
             
 
             message.channel.send({
@@ -17,7 +16,7 @@ module.exports = {
                     footer: { text: 'ready as always' },
                     fields: [
                         { name: 'Infos', value: infos },
-                        { name: 'Tickets', value: Tickets },
+                      
                       
                       
                     ],
