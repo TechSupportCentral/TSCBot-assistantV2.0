@@ -1,4 +1,5 @@
-//module dependencies
+// module dependencies
+
 const fs = require('fs');
 const discord = require('discord.js');
 const mongoose = require('mongoose')
@@ -6,8 +7,7 @@ client.config = require('./config/bot');
 const client = new discord.Client
 
 
-
-//Startup 1/2
+// Load events and commands
 
 const events = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
@@ -29,26 +29,15 @@ fs.readdirSync('./commands').forEach(dirs => {
 });
 
 
-// Mongo DB connection
+// Connect to MongoDB
+
 mongoose.connect(client.config.mongo,{
     useUnifiedTopology : true,
     useNewUrlParser : true,
 }).then(console.log("Connected to mongo db"));
 
-//activity points system
 
-
-const BypassroleandstaffID = '892095942969413634'
-const ticketcreate =  '824684376398233670'
-const suggestions =  '824926277868978186'
-const general =  '824042976371277888'
-const games = '824059985998381138'
-const memes = '824738477291601980'
-const music =  '824067063941300224'
-const funbots =  '832535838289297408'
-const supportteam = '824065058388181013'
-const  OwnerRoleID =  '824063311829925898'
-const stafflogs =   '824194262279127060'
+// Activity points system
 
 client.on("message", async (message) => {
 	if(message.channel.type === `dm`) return ;
@@ -56,30 +45,27 @@ client.on("message", async (message) => {
 	if (message.author.bot) return;
 
 	const Levels = require("discord.js-leveling");
-	let membersWithRole = message.guild.roles.cache.get(BypassroleandstaffID,OwnerRoleID).members;
-	let staff = message.guild.roles.cache.get(BypassroleandstaffID);
+	let staff = message.guild.roles.cache.get(client.config.roles.spteam,client.config.roles.trialmod,client.config.roles.moderator).members;
 
-	if(message.member.roles.cache.has(staff.id))  {
-		if(message.channel.id === ticketcreate) return
-		if(message.channel.id ===suggestions) return
-		if(message.channel.id ===general) return
-		if(message.channel.id ===games) return
-		if(message.channel.id ===setups) return
-		if(message.channel.id ===memes) return
-		if(message.channel.id ===music) return
-		if(message.channel.id ===funbots) return
-		if(message.channel.id ===supportteam) return
-	
+	if(staff.includes(message.member))  {
+		if(message.channel.id === client.config.channels.tickets) return
+		if(message.channel.id === client.config.channels.suggestions) return
+		if(message.channel.id === client.config.channels.general) return
+		if(message.channel.id === client.config.channels.games) return
+		if(message.channel.id === client.config.channels.setups) return
+		if(message.channel.id === client.config.channels.memes) return
+		if(message.channel.id === client.config.channels.bots) return
+		if(message.channel.id === client.config.channels.spteam) return
+		if(message.channel.id === client.config.channels.modtalk) return
+		if(message.member.roles.cache.has(client.config.roles.owner)) return
 
-		let owners = message.guild.roles.cache.get(OwnerRoleID);
-		if (message.member.roles.cache.has(owners.id)) return
 		const randomAmountOfXp = Math.floor(Math.random() * 10) + 1;
 
 	const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
 	if(hasLeveledUp) {
 		const user = await Levels.fetch(message.author.id, message.guild.id);
 		console.log(`Activity level up: ${message.author.tag}`)
-		let channelID =  stafflogs
+		let channelID = client.config.channels.modlog
 
 	let logdest = new discord.MessageEmbed()
 		.setTitle(`Activity Level up`)
@@ -89,8 +75,9 @@ client.on("message", async (message) => {
 	client.channels.cache.get(channelID).send(logdest)
     }}})
 
-//DM log
-let DMlog = '853984661360869386'
+
+// DM log
+
 client.on('message', async (message) => {
 	const dmmessage = message.channel.type === `dm`
 	if (dmmessage) {
@@ -99,7 +86,7 @@ client.on('message', async (message) => {
 		if(!message.author) message.author = `not able to detect`
 		if(!message.author.id) message.author.id = `couldn't detect the ID of the User`
 
-		let channelID = DMlog
+		let channelID = client.config.channels.dmlog
 		let logdest = new discord.MessageEmbed()
 			.setTitle(`DM`)
 			.setDescription(`by:  ${message.author}`  )
@@ -112,9 +99,4 @@ client.on('message', async (message) => {
     }})
 
 
-    //Startup 2/2
-
-    
-
-    client.login(client.config.discord.token);
-    
+client.login(client.config.token);
