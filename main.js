@@ -3,8 +3,15 @@
 const fs = require('fs');
 const discord = require('discord.js');
 const mongoose = require('mongoose')
+
+const client = new discord.Client({
+    intents: [
+        discord.GatewayIntentBits.Guilds,
+        discord.GatewayIntentBits.GuildMessages,
+        discord.GatewayIntentBits.MessageContent
+    ]
+});
 client.config = require('./config/bot');
-const client = new discord.Client
 
 
 // Load events and commands
