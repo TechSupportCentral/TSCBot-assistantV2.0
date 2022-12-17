@@ -12,7 +12,7 @@ module.exports = {
                 author: { name: "credits" },
                 fields: [
                    {name: "Main bot (Python)", value: "by BenTheTechGuy"},
-                   {name: "Assistant Bot (Javascript); handles staff activity tracking, credits", value: "by Philipp" },
+                   {name: "Assistant Bot (Javascript); handles staff activity tracking, credits", value: "by Philipp & BenTheTechGuy" },
                    {name: "Bot hosting", value: "by BenTheTechGuy"}
                 ],
         }
